@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/home_screen.dart';
 import 'package:srevice_link/pages/login_page.dart';
 import 'package:srevice_link/pages/start_page.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "My APP",
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
