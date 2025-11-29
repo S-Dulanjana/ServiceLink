@@ -47,9 +47,9 @@ class _LoginPageState extends State<LoginPage> {
                   children: const [
                     SizedBox(height: 30),
                     Text(
-                      "Get Started",
+                      "Welcome ",
                       style: TextStyle(
-                        fontSize: 28,
+                        fontSize: 40,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

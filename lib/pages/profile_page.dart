@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/home_screen.dart';
 import 'package:srevice_link/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -38,7 +39,20 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile"), centerTitle: true),
+      appBar: AppBar(
+        title: const Text("Profile"),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate to HomePage when back arrow is clicked
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -72,7 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 value: darkMode,
                 onChanged: (value) {
                   setState(() => darkMode = value);
-                  // For demo, rebuild widget to simulate dark mode change
                   if (darkMode) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Dark Mode Enabled")),
@@ -99,7 +112,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // PROFILE HEADER
   Widget _profileHeader() {
     return Column(
       children: [
@@ -131,7 +143,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // SECTION TITLE
   Widget _sectionTitle(String title) {
     return Align(
       alignment: Alignment.centerLeft,
@@ -149,7 +160,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // SECTION BOX
   Widget _sectionBox(List<Widget> children) {
     return Container(
       decoration: BoxDecoration(
@@ -161,7 +171,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // NORMAL TILE
   Widget _listTile(IconData icon, String title) {
     return Column(
       children: [
@@ -183,7 +192,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // EDITABLE TILE
   Widget _editableTile(
     String title,
     TextEditingController controller, {
@@ -206,7 +214,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // TOGGLE TILE
   Widget _toggleTile({
     required IconData icon,
     required String title,
@@ -229,12 +236,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // DIVIDER
   Widget _divider() {
     return const Divider(height: 1, indent: 72);
   }
 
-  // LOGOUT BUTTON
   Widget _logoutButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -244,7 +249,6 @@ class _ProfilePageState extends State<ProfilePage> {
         elevation: 0,
       ),
       onPressed: () {
-        // Clear session logic can go here
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -254,7 +258,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // DIALOG TO EDIT PROFILE HEADER
   void _editProfileDialog() {
     showDialog(
       context: context,
@@ -296,7 +299,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // DIALOG TO EDIT A FIELD
   void _editFieldDialog(
     String title,
     TextEditingController controller,

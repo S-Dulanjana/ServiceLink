@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:srevice_link/pages/masseage_page.dart';
 import 'package:srevice_link/pages/request_list.dart';
 import 'package:srevice_link/pages/services/home_repair_details.dart';
 import 'package:srevice_link/pages/services/cleaning_details.dart';
@@ -7,7 +6,6 @@ import 'package:srevice_link/pages/services/plumbing_details.dart';
 import 'package:srevice_link/pages/services/electrical_details.dart';
 import 'package:srevice_link/pages/services/painting_details.dart';
 import 'package:srevice_link/pages/services/more_details.dart';
-
 import 'package:srevice_link/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> pages = const [
     HomeContent(),
     MyRequestsPage(),
-    MessagePage(),
     ProfilePage(),
   ];
 
@@ -46,10 +43,6 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.list_alt),
               label: "My Requests",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              label: "Messages",
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
@@ -98,12 +91,12 @@ class HomeContent extends StatelessWidget {
     ];
 
     final List<Widget> pages = [
-      HomeRepairDetails(),
-      CleaningDetails(),
+      HomeRepairDetailsPage(),
+      CleaningDetailsPage(),
       PlumbingDetailsPage(),
-      ElectricalDetails(),
-      PaintingDetails(),
-      MoreDetails(),
+      ElectricalDetailsPage(),
+      PaintingDetailsPage(),
+      MoreDetailsPage(),
     ];
 
     return SafeArea(
@@ -114,12 +107,16 @@ class HomeContent extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false, // ✅ Removes back arrow
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
               Text(
                 "Welcome back,",
-                style: TextStyle(fontSize: 13, color: Colors.grey),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Color.fromARGB(255, 217, 206, 206),
+                ),
               ),
               Text("Jane Doe", style: TextStyle(fontWeight: FontWeight.bold)),
             ],
@@ -148,9 +145,23 @@ class HomeContent extends StatelessWidget {
                   fillColor: dark ? Colors.grey.shade900 : Colors.white,
                   prefixIcon: const Icon(Icons.search),
                   hintText: "Search for a service...",
+
+                  // ✅ Default border
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide.none,
+                    borderSide: const BorderSide(color: Colors.black, width: 1),
+                  ),
+
+                  // ✅ Border when enabled (not focused)
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Colors.black, width: 1),
+                  ),
+
+                  // ✅ Border when focused
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: const BorderSide(color: Colors.black, width: 2),
                   ),
                 ),
               ),
@@ -223,7 +234,7 @@ class CategoryTile extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: dark ? Colors.grey.shade900 : Colors.white,
+        color: dark ? Colors.grey.shade900 : Colors.grey.withOpacity(0.3),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 5),

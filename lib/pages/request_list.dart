@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/home_screen.dart';
 
 class MyRequestsPage extends StatelessWidget {
   const MyRequestsPage({super.key});
@@ -16,7 +17,10 @@ class MyRequestsPage extends StatelessWidget {
         elevation: 1,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          ),
         ),
       ),
 

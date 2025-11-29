@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:srevice_link/pages/login_page.dart';
 import 'package:srevice_link/pages/register_page.dart';
 
 class StartPage extends StatelessWidget {
@@ -56,11 +55,6 @@ class _SplashScreenState extends State<SplashScreen>
       begin: 0.8,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    // Navigate after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      // TODO: Navigate to Home Screen
-    });
   }
 
   @override
@@ -80,36 +74,28 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo circle
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RegisterPage()),
-                      );
-                    },
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 1500),
-                      opacity: 1,
-                      child: Container(
-                        width: 96,
-                        height: 96,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF6366F1),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF6366F1).withOpacity(0.4),
-                              blurRadius: 12,
-                              spreadRadius: 3,
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.handshake,
-                          size: 50,
-                          color: Colors.white,
-                        ),
+                  // Logo circle (Icons.handshake)
+                  AnimatedOpacity(
+                    duration: const Duration(milliseconds: 1500),
+                    opacity: 1,
+                    child: Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF6366F1),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF6366F1).withOpacity(0.4),
+                            blurRadius: 12,
+                            spreadRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.handshake,
+                        size: 50,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -154,6 +140,35 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     );
                   },
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // "Get Start" Button
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(
+                    0xFF6366F1,
+                  ).withOpacity(0.8), // light blue bg
+                  foregroundColor: Colors.black, // black text
+                  minimumSize: const Size(double.infinity, 50), // full width
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                  );
+                },
+                child: const Text(
+                  "Get Start",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
