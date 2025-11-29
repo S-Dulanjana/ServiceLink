@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,6 +20,21 @@ class _LoginPageState extends State<LoginPage> {
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
+      // ✅ BACK ARROW ADDED HERE
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: dark ? Colors.white : Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+
       body: SafeArea(
         child: Column(
           children: [
@@ -28,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  SizedBox(height: 80),
+                  SizedBox(height: 30),
                   Text(
                     "Get Started",
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
@@ -41,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+
+            const SizedBox(height: 20),
+
             // FORM
             Expanded(
               child: SingleChildScrollView(
@@ -72,16 +90,14 @@ class _LoginPageState extends State<LoginPage> {
                           size: 20,
                         ),
                         onPressed: () {
-                          setState(() {
-                            obscureText = !obscureText;
-                          });
+                          setState(() => obscureText = !obscureText);
                         },
                       ),
                     ),
 
                     const SizedBox(height: 30),
 
-                    // REMEMBER ME + FORGOT
+                    // REMEMBER + FORGOT
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -115,6 +131,10 @@ class _LoginPageState extends State<LoginPage> {
                       height: 52,
                       child: ElevatedButton(
                         onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
                           // TODO: Handle Login
                         },
                         style: ElevatedButton.styleFrom(
@@ -133,8 +153,8 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 30),
 
                     // DIVIDER
-                    Row(
-                      children: const [
+                    const Row(
+                      children: [
                         Expanded(child: Divider()),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -146,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 20),
 
-                    // SOCIAL BUTTONS
+                    // SOCIAL LOGIN BUTTONS
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -159,15 +179,13 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
-
-            // FOOTER BAR
           ],
         ),
       ),
     );
   }
 
-  // INPUT FIELD WIDGET
+  // ================= INPUT FIELD ================= //
   Widget buildInputField({
     required TextEditingController controller,
     required String label,
@@ -195,7 +213,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // SOCIAL LOGIN BUTTON
+  // ================= SOCIAL BUTTON ================= //
   Widget socialButton(String asset) {
     return InkWell(
       onTap: () {},

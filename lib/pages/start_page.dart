@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/login_page.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -78,27 +79,35 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // Logo circle
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 1500),
-                  opacity: 1,
-                  child: Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1),
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF6366F1).withOpacity(0.4),
-                          blurRadius: 12,
-                          spreadRadius: 3,
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.handshake,
-                      size: 50,
-                      color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 1500),
+                    opacity: 1,
+                    child: Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF6366F1),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF6366F1).withOpacity(0.4),
+                            blurRadius: 12,
+                            spreadRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.handshake,
+                        size: 50,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
