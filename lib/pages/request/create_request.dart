@@ -27,130 +27,132 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
   Widget build(BuildContext context) {
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: dark
-            ? const Color(0xFF121212)
-            : const Color(0xFFF8F9FA),
-        elevation: 1,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            if (Navigator.canPop(context)) Navigator.pop(context);
-          },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: dark
+              ? const Color(0xFF121212)
+              : const Color(0xFFF8F9FA),
+          elevation: 1,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              if (Navigator.canPop(context)) Navigator.pop(context);
+            },
+          ),
+          title: const Text("Create Request"),
+          centerTitle: true,
         ),
-        title: const Text("Create Request"),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    /// SERVICE DETAILS
-                    buildTitle("Service Details"),
-                    buildTextArea(
-                      controller: serviceController,
-                      hint: "e.g., Fix leaking kitchen sink",
-                      maxLines: 4,
-                      dark: dark,
-                    ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      /// SERVICE DETAILS
+                      buildTitle("Service Details"),
+                      buildTextArea(
+                        controller: serviceController,
+                        hint: "e.g., Fix leaking kitchen sink",
+                        maxLines: 4,
+                        dark: dark,
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    /// ADDRESS
-                    buildTitle("Address"),
-                    buildTextArea(
-                      controller: addressController,
-                      hint: "Enter your service location address",
-                      maxLines: 3,
-                      dark: dark,
-                    ),
+                      /// ADDRESS
+                      buildTitle("Address"),
+                      buildTextArea(
+                        controller: addressController,
+                        hint: "Enter your service location address",
+                        maxLines: 3,
+                        dark: dark,
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    /// CONTACT NUMBER
-                    buildTitle("Contact Number"),
-                    buildTextField(
-                      controller: contactController,
-                      hint: "07XXXXXXXX",
-                      keyboardType: TextInputType.phone,
-                      dark: dark,
-                    ),
+                      /// CONTACT NUMBER
+                      buildTitle("Contact Number"),
+                      buildTextField(
+                        controller: contactController,
+                        hint: "07XXXXXXXX",
+                        keyboardType: TextInputType.phone,
+                        dark: dark,
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    /// DATE PICKER
-                    buildTitle("Preferred Date"),
-                    buildPickerField(
-                      hint: selectedDate == null
-                          ? "Select date"
-                          : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-                      icon: Icons.calendar_today,
-                      onTap: () async {
-                        DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: selectedDate ?? DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2100),
-                        );
+                      /// DATE PICKER
+                      buildTitle("Preferred Date"),
+                      buildPickerField(
+                        hint: selectedDate == null
+                            ? "Select date"
+                            : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                        icon: Icons.calendar_today,
+                        onTap: () async {
+                          DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: selectedDate ?? DateTime.now(),
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2100),
+                          );
 
-                        if (picked != null) {
-                          setState(() => selectedDate = picked);
-                        }
-                      },
-                      dark: dark,
-                    ),
+                          if (picked != null) {
+                            setState(() => selectedDate = picked);
+                          }
+                        },
+                        dark: dark,
+                      ),
 
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 20),
 
-                    /// TIME PICKER
-                    buildTitle("Preferred Time"),
-                    buildPickerField(
-                      hint: selectedTime == null
-                          ? "Select time"
-                          : selectedTime!.format(context),
-                      icon: Icons.schedule,
-                      onTap: () async {
-                        TimeOfDay? picked = await showTimePicker(
-                          context: context,
-                          initialTime: selectedTime ?? TimeOfDay.now(),
-                        );
+                      /// TIME PICKER
+                      buildTitle("Preferred Time"),
+                      buildPickerField(
+                        hint: selectedTime == null
+                            ? "Select time"
+                            : selectedTime!.format(context),
+                        icon: Icons.schedule,
+                        onTap: () async {
+                          TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: selectedTime ?? TimeOfDay.now(),
+                          );
 
-                        if (picked != null) {
-                          setState(() => selectedTime = picked);
-                        }
-                      },
-                      dark: dark,
-                    ),
+                          if (picked != null) {
+                            setState(() => selectedTime = picked);
+                          }
+                        },
+                        dark: dark,
+                      ),
 
-                    const SizedBox(height: 30),
-                  ],
-                ),
-              ),
-
-              /// SUBMIT BUTTON
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  onPressed: submitRequest,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6A7BFF),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    "Submit Request",
-                    style: TextStyle(fontSize: 16, color: Colors.white),
+                      const SizedBox(height: 30),
+                    ],
                   ),
                 ),
-              ),
-            ],
+
+                /// SUBMIT BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: submitRequest,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF6A7BFF),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "Submit Request",
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

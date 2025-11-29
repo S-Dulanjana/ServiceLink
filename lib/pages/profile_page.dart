@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/login_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -11,8 +12,28 @@ class _ProfilePageState extends State<ProfilePage> {
   bool notificationsEnabled = true;
   bool darkMode = false;
 
+  String userName = "Cameron Williamson";
+  String userEmail = "cameron.will@example.com";
+
   static const String profileImageUrl =
       "https://lh3.googleusercontent.com/aida-public/AB6AXuBAyTSu3p8M4a_qurWYdYkUx_uHYHQB0c3Zis44bg_3sZBPKmlkLw4XfxnGSERbFuu5uKECXdle9C1v9LmOD53nqBDnaOdE7RXLlozGxhEV0Y-4JhhI5-_fQq3VWn9RWno3wN86z5yvrx9MsaBw2DKWqBayjqnGSbVmXhDBU08XOEruEuuCZAb7ufdx6ljlUkomGJfLDxLcUaspU3cFCBpRa7XR6ZEG2UXVU7GLpu_z5KBKd6IBaz2gNd1bBbLHX5OFlCnRrRJZMds";
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = userName;
+    _emailController.text = userEmail;
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +48,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
             _sectionTitle("ACCOUNT"),
             _sectionBox([
-              _listTile(Icons.person, "Personal Information"),
-              _listTile(Icons.credit_card, "Payment Methods"),
+              _editableTile("Full Name", _nameController),
+              _editableTile("Email", _emailController, isEmail: true),
               _listTile(Icons.history, "Service History"),
               _listTile(Icons.lock, "Change Password"),
             ]),
@@ -51,6 +72,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 value: darkMode,
                 onChanged: (value) {
                   setState(() => darkMode = value);
+                  // For demo, rebuild widget to simulate dark mode change
+                  if (darkMode) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Dark Mode Enabled")),
+                    );
+                  }
                 },
               ),
             ]),
@@ -81,15 +108,12 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundImage: NetworkImage(profileImageUrl),
         ),
         const SizedBox(height: 10),
-        const Text(
-          "Cameron Williamson",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        Text(
+          userName,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
-        const Text(
-          "cameron.will@example.com",
-          style: TextStyle(color: Colors.grey),
-        ),
+        Text(userEmail, style: const TextStyle(color: Colors.grey)),
         const SizedBox(height: 12),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -97,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
             backgroundColor: Colors.blue.shade100,
             elevation: 0,
           ),
-          onPressed: () {},
+          onPressed: _editProfileDialog,
           child: const Text(
             "Edit Profile",
             style: TextStyle(color: Colors.blue),
@@ -148,7 +172,34 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           title: Text(title),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () {},
+          onTap: () {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text("$title clicked")));
+          },
+        ),
+        _divider(),
+      ],
+    );
+  }
+
+  // EDITABLE TILE
+  Widget _editableTile(
+    String title,
+    TextEditingController controller, {
+    bool isEmail = false,
+  }) {
+    return Column(
+      children: [
+        ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.blue.withOpacity(0.15),
+            child: Icon(Icons.edit, color: Colors.blue),
+          ),
+          title: Text(title),
+          subtitle: Text(controller.text),
+          trailing: const Icon(Icons.edit),
+          onTap: () => _editFieldDialog(title, controller, isEmail),
         ),
         _divider(),
       ],
@@ -192,8 +243,95 @@ class _ProfilePageState extends State<ProfilePage> {
         foregroundColor: Colors.red,
         elevation: 0,
       ),
-      onPressed: () {},
+      onPressed: () {
+        // Clear session logic can go here
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      },
       child: const Text("Log Out"),
+    );
+  }
+
+  // DIALOG TO EDIT PROFILE HEADER
+  void _editProfileDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Edit Profile"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: "Full Name"),
+            ),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: "Email"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                userName = _nameController.text;
+                userEmail = _emailController.text;
+              });
+              Navigator.pop(context);
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(const SnackBar(content: Text("Profile updated")));
+            },
+            child: const Text("Save"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // DIALOG TO EDIT A FIELD
+  void _editFieldDialog(
+    String title,
+    TextEditingController controller,
+    bool isEmail,
+  ) {
+    final tempController = TextEditingController(text: controller.text);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Edit $title"),
+        content: TextField(
+          controller: tempController,
+          keyboardType: isEmail
+              ? TextInputType.emailAddress
+              : TextInputType.text,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() => controller.text = tempController.text);
+              if (controller == _nameController) userName = controller.text;
+              if (controller == _emailController) userEmail = controller.text;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text("$title updated")));
+            },
+            child: const Text("Save"),
+          ),
+        ],
+      ),
     );
   }
 }

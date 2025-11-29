@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:srevice_link/pages/request/create_request.dart';
 
-class HomeRepairPage extends StatelessWidget {
-  const HomeRepairPage({super.key});
+class PlumbingDetailsPage extends StatelessWidget {
+  const PlumbingDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

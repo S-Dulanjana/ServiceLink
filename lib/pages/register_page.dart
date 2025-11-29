@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart'; // Make sure this file exists
+import 'login_page.dart'; // Make sure this exists
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -16,6 +16,12 @@ class _RegisterPageState extends State<RegisterPage> {
   String userType = "Customer";
   bool hidePassword = true;
 
+  // Mock database of registered emails
+  final List<String> registeredEmails = [
+    "test@example.com",
+    "already@registered.com",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +31,6 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(22),
@@ -86,7 +91,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-
               Row(
                 children: [
                   userTypeButton("Customer"),
@@ -98,29 +102,18 @@ class _RegisterPageState extends State<RegisterPage> {
               const SizedBox(height: 25),
 
               // REGISTER BUTTON
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginPage()),
-                  );
-                },
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF818CF8),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    onPressed: registerUser,
-                    child: const Text(
-                      "Register",
-                      style: TextStyle(fontSize: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF818CF8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
+                  onPressed: registerUser,
+                  child: const Text("Register", style: TextStyle(fontSize: 16)),
                 ),
               ),
 
@@ -224,20 +217,45 @@ class _RegisterPageState extends State<RegisterPage> {
   // REGISTER LOGIC
   // =====================
   void registerUser() {
-    if (nameController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        passwordController.text.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    // Check required fields
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      showError("All fields are required");
       return;
     }
 
-    // You can connect backend here
-    // For now, just show success
+    // Check email format
+    if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email)) {
+      showError("Please enter a valid email address");
+      return;
+    }
+
+    // Check if email already registered
+    if (registeredEmails.contains(email.toLowerCase())) {
+      showError("This email is already registered");
+      return;
+    }
+
+    // If all validations pass
+    registeredEmails.add(email.toLowerCase());
 
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(const SnackBar(content: Text("Registration Successful")));
+
+    // Navigate to login page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+    );
+  }
+
+  void showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), backgroundColor: Colors.red),
+    );
   }
 }

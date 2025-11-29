@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:srevice_link/pages/masseage_page.dart';
 import 'package:srevice_link/pages/request_list.dart';
-
-// ===== IMPORT YOUR PAGES =====
-import 'package:srevice_link/pages/services/home_repair.dart';
+import 'package:srevice_link/pages/services/home_repair_details.dart';
+import 'package:srevice_link/pages/services/cleaning_details.dart';
+import 'package:srevice_link/pages/services/plumbing_details.dart';
+import 'package:srevice_link/pages/services/electrical_details.dart';
+import 'package:srevice_link/pages/services/painting_details.dart';
+import 'package:srevice_link/pages/services/more_details.dart';
 
 import 'package:srevice_link/pages/profile_page.dart';
 
@@ -26,40 +29,40 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[selectedIndex],
-
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        selectedItemColor: const Color(0xFF818CF8),
-        unselectedItemColor: Colors.grey,
-        showUnselectedLabels: true,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          setState(() => selectedIndex = index);
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: "My Requests",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: "Messages",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: pages[selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          selectedItemColor: const Color(0xFF818CF8),
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            setState(() => selectedIndex = index);
+          },
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: "My Requests",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline),
+              label: "Messages",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: "Profile",
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 // ================= HOME MAIN CONTENT =================
-
 class HomeContent extends StatelessWidget {
   const HomeContent({super.key});
 
@@ -94,13 +97,20 @@ class HomeContent extends StatelessWidget {
       Colors.purple,
     ];
 
+    final List<Widget> pages = [
+      HomeRepairDetails(),
+      CleaningDetails(),
+      PlumbingDetailsPage(),
+      ElectricalDetails(),
+      PaintingDetails(),
+      MoreDetails(),
+    ];
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: dark
             ? const Color(0xFF111827)
             : const Color(0xFFF9FAFB),
-
-        // ================= APP BAR =================
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -126,8 +136,6 @@ class HomeContent extends StatelessWidget {
             ),
           ],
         ),
-
-        // ================= BODY =================
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -176,9 +184,7 @@ class HomeContent extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomeRepairPage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => pages[index]),
                         );
                       },
                       child: CategoryTile(
@@ -199,7 +205,6 @@ class HomeContent extends StatelessWidget {
 }
 
 // ================= CATEGORY TILE =================
-
 class CategoryTile extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -227,7 +232,6 @@ class CategoryTile extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // ICON CIRCLE
           Container(
             width: 64,
             height: 64,
@@ -237,9 +241,7 @@ class CategoryTile extends StatelessWidget {
             ),
             child: Icon(icon, color: color, size: 32),
           ),
-
           const SizedBox(height: 10),
-
           Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
