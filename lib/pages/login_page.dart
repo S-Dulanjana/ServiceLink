@@ -19,167 +19,176 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      // ✅ BACK ARROW ADDED HERE
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: dark ? Colors.white : Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-
-      body: SafeArea(
-        child: Column(
-          children: [
-            // HEADER
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  SizedBox(height: 30),
-                  Text(
-                    "Get Started",
-                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "Create an account or log in",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
+    return SafeArea(
+      child: Scaffold(
+        // ✅ BACK ARROW ADDED HERE
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: dark ? Colors.white : Colors.black,
             ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
 
-            const SizedBox(height: 20),
-
-            // FORM
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+        body: SafeArea(
+          child: Column(
+            children: [
+              // HEADER
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 10),
                 child: Column(
-                  children: [
-                    // EMAIL FIELD
-                    buildInputField(
-                      controller: emailController,
-                      hint: "Enter your email",
-                      label: "Email Address",
-                      icon: Icons.mail_outline,
-                      obscure: false,
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    // PASSWORD FIELD
-                    buildInputField(
-                      controller: passwordController,
-                      hint: "Enter your password",
-                      label: "Password",
-                      icon: Icons.lock_outline,
-                      obscure: obscureText,
-                      suffix: IconButton(
-                        icon: Icon(
-                          obscureText ? Icons.visibility_off : Icons.visibility,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          setState(() => obscureText = !obscureText);
-                        },
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SizedBox(height: 30),
+                    Text(
+                      "Get Started",
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-
-                    const SizedBox(height: 30),
-
-                    // REMEMBER + FORGOT
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: rememberMe,
-                              onChanged: (value) {
-                                setState(() => rememberMe = value!);
-                              },
-                              activeColor: const Color(0xFF818CF8),
-                            ),
-                            const Text("Remember me"),
-                          ],
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "Forgot password?",
-                            style: TextStyle(color: Color(0xFF818CF8)),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // CONTINUE BUTTON
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                          );
-                          // TODO: Handle Login
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF818CF8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Text(
-                          "Continue",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 30),
-
-                    // DIVIDER
-                    const Row(
-                      children: [
-                        Expanded(child: Divider()),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                          child: Text("Or continue with"),
-                        ),
-                        Expanded(child: Divider()),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // SOCIAL LOGIN BUTTONS
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        socialButton("assets/google.png"),
-                        socialButton("assets/apple.png"),
-                        socialButton("assets/facebook.png"),
-                      ],
+                    SizedBox(height: 4),
+                    Text(
+                      "Create an account or log in",
+                      style: TextStyle(color: Colors.grey),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              // FORM
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      // EMAIL FIELD
+                      buildInputField(
+                        controller: emailController,
+                        hint: "Enter your email",
+                        label: "Email Address",
+                        icon: Icons.mail_outline,
+                        obscure: false,
+                      ),
+
+                      const SizedBox(height: 25),
+
+                      // PASSWORD FIELD
+                      buildInputField(
+                        controller: passwordController,
+                        hint: "Enter your password",
+                        label: "Password",
+                        icon: Icons.lock_outline,
+                        obscure: obscureText,
+                        suffix: IconButton(
+                          icon: Icon(
+                            obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            setState(() => obscureText = !obscureText);
+                          },
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      // REMEMBER + FORGOT
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: rememberMe,
+                                onChanged: (value) {
+                                  setState(() => rememberMe = value!);
+                                },
+                                activeColor: const Color(0xFF818CF8),
+                              ),
+                              const Text("Remember me"),
+                            ],
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Forgot password?",
+                              style: TextStyle(color: Color(0xFF818CF8)),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // CONTINUE BUTTON
+                      SizedBox(
+                        width: double.infinity,
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                            // TODO: Handle Login
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF818CF8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            "Continue",
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      // DIVIDER
+                      const Row(
+                        children: [
+                          Expanded(child: Divider()),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text("Or continue with"),
+                          ),
+                          Expanded(child: Divider()),
+                        ],
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // SOCIAL LOGIN BUTTONS
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          socialButton("assets/google.png"),
+                          socialButton("assets/apple.png"),
+                          socialButton("assets/facebook.png"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

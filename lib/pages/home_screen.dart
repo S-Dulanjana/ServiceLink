@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/services/home_repair.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -41,118 +42,133 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     bool dark = Theme.of(context).brightness == Brightness.dark;
 
-    return Scaffold(
-      backgroundColor: dark ? const Color(0xFF111827) : const Color(0xFFF9FAFB),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: dark
+            ? const Color(0xFF111827)
+            : const Color(0xFFF9FAFB),
 
-      // ===================== APP BAR ===================== //
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              "Welcome back,",
-              style: TextStyle(fontSize: 13, color: Colors.grey),
-            ),
-            Text("Jane Doe", style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              radius: 22,
-              backgroundImage: const NetworkImage(
-                "https://lh3.googleusercontent.com/aida-public/AB6AXuCL-1v_xZwAIJgy2KshHIbyX27chs0Oa9LEWqx_BW35zJBcqD1AqQiYyLEVhtCzarVZDSydAtFykxpQWVhgecY1yfxmSq5yXEavmEdQGycV3zLyyzscv6Qyi3SkgcIGU98zWcMYnUsGZ2zNr0FyprRpVU86rA9wKLi5uOQqHl2qmTXTj1CZgYznorECaFiatkaMjOcKszncqzANF9hBhX_jQ3ao2AKOzA92EcEkxm_SZrRHFZcnAlB_gHPc03IkDgeBdNQO48tLchE",
+        // ===================== APP BAR ===================== //
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "Welcome back,",
+                style: TextStyle(fontSize: 13, color: Colors.grey),
               ),
-            ),
+              Text("Jane Doe", style: TextStyle(fontWeight: FontWeight.bold)),
+            ],
           ),
-        ],
-      ),
-
-      // ===================== BODY ===================== //
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SEARCH BOX
+          actions: [
             Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: dark ? Colors.grey.shade900 : Colors.white,
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: "Search for a service...",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-              ),
-            ),
-
-            // TITLE
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "Categories",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // GRID
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: GridView.builder(
-                  itemCount: categories.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: 1,
-                  ),
-                  itemBuilder: (_, index) {
-                    return CategoryTile(
-                      title: categories[index],
-                      icon: icons[index],
-                      color: bgColors[index],
-                    );
-                  },
+              padding: const EdgeInsets.only(right: 16),
+              child: CircleAvatar(
+                radius: 22,
+                backgroundImage: const NetworkImage(
+                  "https://lh3.googleusercontent.com/aida-public/AB6AXuCL-1v_xZwAIJgy2KshHIbyX27chs0Oa9LEWqx_BW35zJBcqD1AqQiYyLEVhtCzarVZDSydAtFykxpQWVhgecY1yfxmSq5yXEavmEdQGycV3zLyyzscv6Qyi3SkgcIGU98zWcMYnUsGZ2zNr0FyprRpVU86rA9wKLi5uOQqHl2qmTXTj1CZgYznorECaFiatkaMjOcKszncqzANF9hBhX_jQ3ao2AKOzA92EcEkxm_SZrRHFZcnAlB_gHPc03IkDgeBdNQO48tLchE",
                 ),
               ),
             ),
           ],
         ),
-      ),
 
-      // ===================== BOTTOM NAV ===================== //
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
-        onTap: (index) {
-          setState(() => selectedIndex = index);
-        },
-        selectedItemColor: const Color(0xFF818CF8),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: "My Requests",
+        // ===================== BODY ===================== //
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SEARCH BOX
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: dark ? Colors.grey.shade900 : Colors.white,
+                    prefixIcon: const Icon(Icons.search),
+                    hintText: "Search for a service...",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+
+              // TITLE
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  "Categories",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              // GRID
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: GridView.builder(
+                    itemCount: categories.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 1,
+                        ),
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeRepairPage(),
+                            ),
+                          );
+                        },
+                        child: CategoryTile(
+                          title: categories[index],
+                          icon: icons[index],
+                          color: bgColors[index],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble_outline),
-            label: "Messages",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
-        ],
+        ),
+
+        // ===================== BOTTOM NAV ===================== //
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() => selectedIndex = index);
+          },
+          selectedItemColor: const Color(0xFF818CF8),
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: "My Requests",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline),
+              label: "Messages",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline),
+              label: "Profile",
+            ),
+          ],
+        ),
       ),
     );
   }
