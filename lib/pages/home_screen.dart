@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/masseage_page.dart';
+import 'package:srevice_link/pages/request_list.dart';
+
+// ===== IMPORT YOUR PAGES =====
 import 'package:srevice_link/pages/services/home_repair.dart';
+
+import 'package:srevice_link/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,36 +17,82 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
 
-  final List<String> categories = [
-    "Home Repair",
-    "Cleaning",
-    "Plumbing",
-    "Electrical",
-    "Painting",
-    "More",
-  ];
-
-  final List<IconData> icons = [
-    Icons.home_repair_service,
-    Icons.cleaning_services,
-    Icons.plumbing,
-    Icons.electrical_services,
-    Icons.format_paint,
-    Icons.more_horiz,
-  ];
-
-  final List<Color> bgColors = [
-    Colors.indigo,
-    Colors.green,
-    Colors.pink,
-    Colors.blue,
-    Colors.orange,
-    Colors.purple,
+  final List<Widget> pages = const [
+    HomeContent(),
+    MyRequestsPage(),
+    MessagePage(),
+    ProfilePage(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[selectedIndex],
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        selectedItemColor: const Color(0xFF818CF8),
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          setState(() => selectedIndex = index);
+        },
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list_alt),
+            label: "My Requests",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat_bubble_outline),
+            label: "Messages",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ================= HOME MAIN CONTENT =================
+
+class HomeContent extends StatelessWidget {
+  const HomeContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     bool dark = Theme.of(context).brightness == Brightness.dark;
+
+    final List<String> categories = [
+      "Home Repair",
+      "Cleaning",
+      "Plumbing",
+      "Electrical",
+      "Painting",
+      "More",
+    ];
+
+    final List<IconData> icons = [
+      Icons.home_repair_service,
+      Icons.cleaning_services,
+      Icons.plumbing,
+      Icons.electrical_services,
+      Icons.format_paint,
+      Icons.more_horiz,
+    ];
+
+    final List<Color> bgColors = [
+      Colors.indigo,
+      Colors.green,
+      Colors.pink,
+      Colors.blue,
+      Colors.orange,
+      Colors.purple,
+    ];
 
     return SafeArea(
       child: Scaffold(
@@ -48,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             ? const Color(0xFF111827)
             : const Color(0xFFF9FAFB),
 
-        // ===================== APP BAR ===================== //
+        // ================= APP BAR =================
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -62,110 +114,82 @@ class _HomePageState extends State<HomePage> {
               Text("Jane Doe", style: TextStyle(fontWeight: FontWeight.bold)),
             ],
           ),
-          actions: [
+          actions: const [
             Padding(
-              padding: const EdgeInsets.only(right: 16),
+              padding: EdgeInsets.only(right: 16),
               child: CircleAvatar(
                 radius: 22,
-                backgroundImage: const NetworkImage(
-                  "https://lh3.googleusercontent.com/aida-public/AB6AXuCL-1v_xZwAIJgy2KshHIbyX27chs0Oa9LEWqx_BW35zJBcqD1AqQiYyLEVhtCzarVZDSydAtFykxpQWVhgecY1yfxmSq5yXEavmEdQGycV3zLyyzscv6Qyi3SkgcIGU98zWcMYnUsGZ2zNr0FyprRpVU86rA9wKLi5uOQqHl2qmTXTj1CZgYznorECaFiatkaMjOcKszncqzANF9hBhX_jQ3ao2AKOzA92EcEkxm_SZrRHFZcnAlB_gHPc03IkDgeBdNQO48tLchE",
+                backgroundImage: NetworkImage(
+                  "https://randomuser.me/api/portraits/women/44.jpg",
                 ),
               ),
             ),
           ],
         ),
 
-        // ===================== BODY ===================== //
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // SEARCH BOX
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: dark ? Colors.grey.shade900 : Colors.white,
-                    prefixIcon: const Icon(Icons.search),
-                    hintText: "Search for a service...",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide.none,
-                    ),
+        // ================= BODY =================
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // SEARCH BAR
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: dark ? Colors.grey.shade900 : Colors.white,
+                  prefixIcon: const Icon(Icons.search),
+                  hintText: "Search for a service...",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    borderSide: BorderSide.none,
                   ),
                 ),
               ),
+            ),
 
-              // TITLE
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  "Categories",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+            // HEADING
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                "Categories",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 16),
+            ),
 
-              // GRID
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: GridView.builder(
-                    itemCount: categories.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: 1,
-                        ),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomeRepairPage(),
-                            ),
-                          );
-                        },
-                        child: CategoryTile(
-                          title: categories[index],
-                          icon: icons[index],
-                          color: bgColors[index],
-                        ),
-                      );
-                    },
+            const SizedBox(height: 16),
+
+            // GRID VIEW
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: GridView.builder(
+                  itemCount: categories.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 1,
                   ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeRepairPage(),
+                          ),
+                        );
+                      },
+                      child: CategoryTile(
+                        title: categories[index],
+                        icon: icons[index],
+                        color: bgColors[index],
+                      ),
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
-        ),
-
-        // ===================== BOTTOM NAV ===================== //
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            setState(() => selectedIndex = index);
-          },
-          selectedItemColor: const Color(0xFF818CF8),
-          unselectedItemColor: Colors.grey,
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt),
-              label: "My Requests",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              label: "Messages",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: "Profile",
             ),
           ],
         ),
@@ -174,7 +198,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// ===================== CATEGORY TILE ===================== //
+// ================= CATEGORY TILE =================
+
 class CategoryTile extends StatelessWidget {
   final String title;
   final IconData icon;

@@ -130,7 +130,7 @@ class HomeRepairPage extends StatelessWidget {
                             Expanded(
                               child: InfoCard(
                                 title: "Starting Price",
-                                value: "\$49",
+                                value: "\$8",
                               ),
                             ),
                             SizedBox(width: 12),

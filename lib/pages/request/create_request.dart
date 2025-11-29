@@ -9,7 +9,8 @@ class CreateRequestPage extends StatefulWidget {
 
 class _CreateRequestPageState extends State<CreateRequestPage> {
   final TextEditingController serviceController = TextEditingController();
-  final TextEditingController instructionController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final TextEditingController contactController = TextEditingController();
 
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
@@ -17,7 +18,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
   @override
   void dispose() {
     serviceController.dispose();
-    instructionController.dispose();
+    addressController.dispose();
+    contactController.dispose();
     super.dispose();
   }
 
@@ -40,14 +42,11 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
         title: const Text("Create Request"),
         centerTitle: true,
       ),
-
-      // SafeArea kept inside Scaffold so layout is bounded
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              // scrollable content
               Expanded(
                 child: ListView(
                   children: [
@@ -57,6 +56,28 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                       controller: serviceController,
                       hint: "e.g., Fix leaking kitchen sink",
                       maxLines: 4,
+                      dark: dark,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    /// ADDRESS
+                    buildTitle("Address"),
+                    buildTextArea(
+                      controller: addressController,
+                      hint: "Enter your service location address",
+                      maxLines: 3,
+                      dark: dark,
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    /// CONTACT NUMBER
+                    buildTitle("Contact Number"),
+                    buildTextField(
+                      controller: contactController,
+                      hint: "07XXXXXXXX",
+                      keyboardType: TextInputType.phone,
                       dark: dark,
                     ),
 
@@ -106,38 +127,26 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
                       dark: dark,
                     ),
 
-                    const SizedBox(height: 20),
-
-                    /// SPECIAL INSTRUCTIONS
-                    buildTitle("Special Instructions"),
-                    buildTextArea(
-                      controller: instructionController,
-                      hint: "Optional: Please call before arriving.",
-                      maxLines: 3,
-                      dark: dark,
-                    ),
-
-                    // add some bottom padding so the last field is scrolled above the button
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),
 
-              // SUBMIT BUTTON (always visible at bottom)
+              /// SUBMIT BUTTON
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
                   onPressed: submitRequest,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6A7BFF).withOpacity(0.5),
+                    backgroundColor: const Color(0xFF6A7BFF),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: const Text(
                     "Submit Request",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
@@ -148,7 +157,7 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
     );
   }
 
-  // ===== WIDGETS =====
+  // ===== UI HELPERS =====
 
   Widget buildTitle(String text) {
     return Padding(
@@ -166,6 +175,27 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      decoration: InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: dark ? const Color(0xFF1E1E1E) : Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField({
+    required TextEditingController controller,
+    required String hint,
+    required TextInputType keyboardType,
+    required bool dark,
+  }) {
+    return TextField(
+      controller: controller,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
@@ -210,6 +240,8 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
 
   void submitRequest() {
     if (serviceController.text.isEmpty ||
+        addressController.text.isEmpty ||
+        contactController.text.isEmpty ||
         selectedDate == null ||
         selectedTime == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -218,17 +250,14 @@ class _CreateRequestPageState extends State<CreateRequestPage> {
       return;
     }
 
-    // Replace these prints with actual API / DB calls
     debugPrint("SERVICE: ${serviceController.text}");
+    debugPrint("ADDRESS: ${addressController.text}");
+    debugPrint("CONTACT: ${contactController.text}");
     debugPrint("DATE: $selectedDate");
     debugPrint("TIME: ${selectedTime!.format(context)}");
-    debugPrint("INSTRUCTIONS: ${instructionController.text}");
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Request Submitted Successfully")),
     );
-
-    // Optionally pop back or clear form:
-    // Navigator.pop(context);
   }
 }
