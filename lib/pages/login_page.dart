@@ -160,29 +160,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       const SizedBox(height: 30),
 
-                      // DIVIDER
-                      const Row(
-                        children: [
-                          Expanded(child: Divider()),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Text("Or continue with"),
-                          ),
-                          Expanded(child: Divider()),
-                        ],
-                      ),
-
                       const SizedBox(height: 20),
-
-                      // SOCIAL LOGIN BUTTONS
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          socialButton("assets/google.png"),
-                          socialButton("assets/apple.png"),
-                          socialButton("assets/facebook.png"),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -219,25 +197,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ],
-    );
-  }
-
-  // ================= SOCIAL BUTTON ================= //
-  Widget socialButton(String asset) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        height: 52,
-        width: 90,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Image.asset(asset),
-        ),
-      ),
     );
   }
 }

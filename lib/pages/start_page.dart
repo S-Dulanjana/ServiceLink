@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:srevice_link/pages/login_page.dart';
+import 'package:srevice_link/pages/register_page.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -84,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen>
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => RegisterPage()),
                       );
                     },
                     child: AnimatedOpacity(

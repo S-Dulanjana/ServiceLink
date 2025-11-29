@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:srevice_link/pages/register_page.dart';
 
 import 'package:srevice_link/pages/start_page.dart';
 
